@@ -1,0 +1,47 @@
+# NOM DE L'APPLICATION
+name: pontconnect
+description: "Application mobile - Projet de 2ème année."
+
+# AUTEUR
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+# VERSION DE L'APPLICATION
+version: 1.2.3
+
+# VERSION DU SDK FLUTTER
+environment:
+  sdk: ^3.6.1
+
+# DEPENDANCES
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.0.17
+  http: ^1.3.0
+  table_calendar: ^3.0.9
+  intl: ^0.18.1
+  flutter_secure_storage: ^8.0.0
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+
+# DEV DEPENDANCES
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+# ASSETS
+flutter:
+  uses-material-design: true
+
+  # IMAGES
+  assets:
+    - assets/images/
+  # FONTS
+  fonts:
+    #- family: SmoochSans
+    - family: DarumadropOne
+      fonts:
+        - asset: assets/fonts/DarumadropOne-Regular.ttf
