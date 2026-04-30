@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 // --- CONFIGURATION API ---
 class ApiConstants {
-  static const String baseUrl = "http://100.86.230.3:3000/api/";
+  static const String baseUrl = "http://192.168.112.161:3000/api/";
 }
 
 class AppConstants {
-  static const String baseUrl = "http://100.86.230.3:3000/api/";
+  static const String baseUrl = "http://192.168.112.161:3000/api/";
   static const Color primaryColor = Color(0xFF001A49);
   static const Color accentColorGold = Color(0xFFFFD700);
   static const Color buttonYellow = Color(0xFFFFC107);
