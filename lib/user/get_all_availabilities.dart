@@ -114,7 +114,7 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
             ),
             dialogBackgroundColor: backgroundLight,
             textTheme:
-                ThemeData.light().textTheme.apply(fontFamily: 'DarumadropOne'),
+                ThemeData.light().textTheme.apply(),
           ),
           child: child!,
         );
@@ -358,7 +358,7 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
 
   // CONSTRUCTION DE L'INTERFACE
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     // SÉPARATION DES CRÉNEAUX PAR DIRECTION
     final sorties = _creneaux.where((c) {
       final dir = (c['direction'] ?? "").toString().toLowerCase();
@@ -481,13 +481,6 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
                             children: [
                               // SECTION SORTIE
                               if (sorties.isNotEmpty) ...[
-                                Image.asset(
-                                  'assets/images/direction_sortie.webp',
-                                  width: double.infinity,
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                ),
-                                const SizedBox(height: 8),
                                 Column(
                                   children: sorties
                                       .map((c) => _buildCreneauCard(c))
@@ -498,13 +491,6 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
 
                               // SECTION ENTRÉE
                               if (entrees.isNotEmpty) ...[
-                                Image.asset(
-                                  'assets/images/direction_entre.webp',
-                                  width: double.infinity,
-                                  height: 180,
-                                  fit: BoxFit.cover,
-                                ),
-                                const SizedBox(height: 8),
                                 Column(
                                   children: entrees
                                       .map((c) => _buildCreneauCard(c))

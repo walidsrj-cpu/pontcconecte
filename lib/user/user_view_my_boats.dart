@@ -156,8 +156,7 @@ class _ViewUserBateauxState extends State<ViewUserBateaux> {
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: backgroundLight,
-                    fontFamily: 'DarumadropOne'),
+                    color: backgroundLight),
               ),
             ),
           ],
@@ -189,12 +188,10 @@ class _ViewUserBateauxState extends State<ViewUserBateaux> {
                       labelText: "Nom du bateau",
                       labelStyle: const TextStyle(
                         fontSize: 16,
-                        color: textSecondary,
-                        fontFamily: 'DarumadropOne',
+                        color: textSecondary
                       ),
                       floatingLabelStyle: const TextStyle(
-                        color: primaryColor,
-                        fontFamily: 'DarumadropOne',
+                        color: primaryColor
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -222,12 +219,10 @@ class _ViewUserBateauxState extends State<ViewUserBateaux> {
                       labelText: "Immatriculation",
                       labelStyle: const TextStyle(
                         fontSize: 16,
-                        color: textSecondary,
-                        fontFamily: 'DarumadropOne',
+                        color: textSecondary
                       ),
                       floatingLabelStyle: const TextStyle(
-                        color: primaryColor,
-                        fontFamily: 'DarumadropOne',
+                        color: primaryColor
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -254,12 +249,10 @@ class _ViewUserBateauxState extends State<ViewUserBateaux> {
                       labelText: "Hauteur (en mètres)",
                       labelStyle: const TextStyle(
                         fontSize: 16,
-                        color: textSecondary,
-                        fontFamily: 'DarumadropOne',
+                        color: textSecondary
                       ),
                       floatingLabelStyle: const TextStyle(
-                        color: primaryColor,
-                        fontFamily: 'DarumadropOne',
+                        color: primaryColor
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
@@ -293,8 +286,7 @@ class _ViewUserBateauxState extends State<ViewUserBateaux> {
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: textPrimary,
-                    fontFamily: 'DarumadropOne'),
+                    color: textPrimary),
               ),
             ),
             TextButton(
@@ -313,8 +305,7 @@ class _ViewUserBateauxState extends State<ViewUserBateaux> {
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    color: backgroundLight,
-                    fontFamily: 'DarumadropOne'),
+                    color: backgroundLight),
               ),
             ),
           ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:pontconnect/auth/user_session_storage.dart';
 import 'dart:convert';
@@ -76,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     return Scaffold(
 
       // CORPS DE LA PAGE
@@ -111,11 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    SvgPicture.asset(
-                      "assets/images/logo.svg",
-                      height: 90,
-                      color: primaryColor,
-                    ),
                     const SizedBox(height: 30),
 
                     // CHAMPS DE SAISIE EMAIL
@@ -127,12 +121,10 @@ class _LoginPageState extends State<LoginPage> {
 
                         labelStyle: TextStyle(
                           fontSize: 16,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: primaryColor,
-                          fontFamily: 'DarumadropOne',
+                          color: primaryColor
                         ),
 
                         border: OutlineInputBorder(
@@ -174,12 +166,10 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: 'Mot de passe',
                         labelStyle: TextStyle(
                           fontSize: 16,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: primaryColor,
-                          fontFamily: 'DarumadropOne',
+                          color: primaryColor
                         ),
 
                         border: OutlineInputBorder(

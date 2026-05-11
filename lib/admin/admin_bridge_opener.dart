@@ -37,7 +37,7 @@ class _AdminBridgeOpenerState extends State<AdminBridgeOpener> {
     setState(() => _fetching = true);
     try {
       final response = await http.get(
-        Uri.parse("${ApiConstants.baseUrl}admin/ponts"),
+        Uri.parse("${ApiConstants.baseUrl}sensor/mesures"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -58,7 +58,6 @@ class _AdminBridgeOpenerState extends State<AdminBridgeOpener> {
         );
       }
     } catch (e) {
-      debugPrint("Erreur : $e");
       NotificationHelper.showError(context, 'Impossible de charger les ponts.');
     } finally {
       setState(() => _fetching = false);
@@ -84,7 +83,7 @@ class _AdminBridgeOpenerState extends State<AdminBridgeOpener> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
       appBar: AppBar(
@@ -111,9 +110,13 @@ class _AdminBridgeOpenerState extends State<AdminBridgeOpener> {
                         child: Text(_getPontLabel(p)),
                       );
                     }).toList(),
-                    onChanged: (val) => setState(() => _selectedPontId = val),
+                    hint: const Text('Sélectionner un pont'),
+                    onChanged: _ponts.isEmpty
+                        ? null
+                        : (val) => setState(() => _selectedPontId = val),
                     decoration: const InputDecoration(
-                        labelText: "Sélectionner un pont"),
+                      labelText: 'Pont',
+                    ),
                   ),
                   const SizedBox(height: 30),
                   Row(

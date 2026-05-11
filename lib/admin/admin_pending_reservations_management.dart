@@ -314,8 +314,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: backgroundLight,
-                      fontFamily: 'DarumadropOne',
+                      color: backgroundLight
                     ),
                   ),
                 ),
@@ -333,8 +332,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: _getStatusColor(currentStatus),
-                      fontFamily: 'DarumadropOne',
+                      color: _getStatusColor(currentStatus)
                     ),
                   ),
                 ),
@@ -364,8 +362,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: primaryColor,
-                              fontFamily: 'DarumadropOne',
+                              color: primaryColor
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -373,8 +370,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                             bateauName,
                             style: const TextStyle(
                               fontSize: 15,
-                              color: textPrimary,
-                              fontFamily: 'DarumadropOne',
+                              color: textPrimary
                             ),
                           ),
                         ],
@@ -392,8 +388,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                               bateauImmatriculation,
                               style: const TextStyle(
                                 fontSize: 13,
-                                color: secondaryColor,
-                                fontFamily: 'DarumadropOne',
+                                color: secondaryColor
                               ),
                             ),
                           ],
@@ -408,8 +403,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                               "${bateauHauteur.toStringAsFixed(2)} M",
                               style: const TextStyle(
                                 fontSize: 13,
-                                color: secondaryColor,
-                                fontFamily: 'DarumadropOne',
+                                color: secondaryColor
                               ),
                             ),
                           ],
@@ -436,8 +430,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                       ),
                     ),
@@ -461,8 +454,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                               ? accentColor
                               : progress >= 0.5
                                   ? tertiaryColor
-                                  : primaryColor,
-                          fontFamily: 'DarumadropOne',
+                                  : primaryColor
                         ),
                       ),
                     ),
@@ -498,8 +490,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                         userName,
                         style: const TextStyle(
                           fontSize: 14,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                       ),
                     ),
@@ -524,14 +515,12 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                   title: const Text(
                                     "CONFIRMATION",
                                     style: TextStyle(
-                                      fontFamily: 'DarumadropOne',
                                       color: textPrimary,
                                     ),
                                   ),
                                   content: const Text(
                                     "Voulez-vous confirmer cette réservation ?",
                                     style: TextStyle(
-                                      fontFamily: 'DarumadropOne',
                                       color: textSecondary,
                                     ),
                                   ),
@@ -541,7 +530,6 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                       child: const Text(
                                         "ANNULER",
                                         style: TextStyle(
-                                          fontFamily: 'DarumadropOne',
                                           color: secondaryColor,
                                         ),
                                       ),
@@ -562,7 +550,6 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                       child: const Text(
                                         "CONFIRMER",
                                         style: TextStyle(
-                                          fontFamily: 'DarumadropOne',
                                           color: backgroundLight,
                                         ),
                                       ),
@@ -577,7 +564,6 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                         "CONFIRMER",
                         style: TextStyle(
                           fontSize: 12,
-                          fontFamily: 'DarumadropOne',
                           color: backgroundLight,
                         ),
                       ),
@@ -604,14 +590,12 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                   title: const Text(
                                     "CONFIRMATION",
                                     style: TextStyle(
-                                      fontFamily: 'DarumadropOne',
                                       color: textPrimary,
                                     ),
                                   ),
                                   content: const Text(
                                     "Voulez-vous annuler cette réservation ?",
                                     style: TextStyle(
-                                      fontFamily: 'DarumadropOne',
                                       color: textSecondary,
                                     ),
                                   ),
@@ -621,7 +605,6 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                       child: const Text(
                                         "RETOUR",
                                         style: TextStyle(
-                                          fontFamily: 'DarumadropOne',
                                           color: secondaryColor,
                                         ),
                                       ),
@@ -641,7 +624,6 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                       child: const Text(
                                         "ANNULER",
                                         style: TextStyle(
-                                          fontFamily: 'DarumadropOne',
                                           color: backgroundLight,
                                         ),
                                       ),
@@ -655,7 +637,6 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                         "ANNULER",
                         style: TextStyle(
                           fontSize: 12,
-                          fontFamily: 'DarumadropOne',
                           color: backgroundLight,
                         ),
                       ),
@@ -681,7 +662,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
 
   // CONSTRUCTION DE L'INTERFACE
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     return Scaffold(
       // BARRE D'APPLICATION
       appBar: AppBar(
@@ -748,8 +729,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                           "CHARGEMENT...",
                           style: TextStyle(
                             color: textSecondary,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'DarumadropOne',
+                            fontWeight: FontWeight.bold
                           ),
                         ),
                       ],
@@ -771,8 +751,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                               style: TextStyle(
                                 fontSize: 18,
                                 color: accentColor,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'DarumadropOne',
+                                fontWeight: FontWeight.bold
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -784,8 +763,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: textPrimary,
-                                  fontFamily: 'DarumadropOne',
+                                  color: textPrimary
                                 ),
                               ),
                             ),
@@ -797,8 +775,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                               label: const Text(
                                 "RÉESSAYER",
                                 style: TextStyle(
-                                  color: backgroundLight,
-                                  fontFamily: 'DarumadropOne',
+                                  color: backgroundLight
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
@@ -828,8 +805,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: textPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'DarumadropOne',
+                                    fontWeight: FontWeight.bold
                                   ),
                                 ),
                                 const SizedBox(height: 24),
@@ -840,8 +816,7 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
                                   label: const Text(
                                     "ACTUALISER",
                                     style: TextStyle(
-                                      color: backgroundLight,
-                                      fontFamily: 'DarumadropOne',
+                                      color: backgroundLight
                                     ),
                                   ),
                                   style: ElevatedButton.styleFrom(

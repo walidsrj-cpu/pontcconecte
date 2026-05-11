@@ -285,8 +285,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
             labelText: label,
             labelStyle: const TextStyle(
                 fontSize: 15,
-                color: textSecondary,
-                fontFamily: 'DarumadropOne'),
+                color: textSecondary),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -302,13 +301,13 @@ class _UserAddReservationState extends State<UserAddReservation> {
           dropdownColor: backgroundLight,
           iconEnabledColor: textPrimary,
           style: const TextStyle(
-              fontSize: 15, color: textPrimary, fontFamily: 'DarumadropOne'),
+              fontSize: 15, color: textPrimary),
           hint: isLoading
               ? const Text("CHARGEMENT...",
-                  style: TextStyle(fontFamily: 'DarumadropOne'))
+                  style: TextStyle())
               : hint ??
                   const Text("SÉLECTIONNER",
-                      style: TextStyle(fontFamily: 'DarumadropOne')),
+                      style: TextStyle()),
         ),
         if (isLoading)
           const Positioned(
@@ -346,7 +345,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                 dialogBackgroundColor: backgroundLight,
                 textTheme: ThemeData.light()
                     .textTheme
-                    .apply(fontFamily: 'DarumadropOne'),
+                    .apply(),
               ),
               child: child!,
             );
@@ -364,7 +363,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
         decoration: InputDecoration(
           labelText: "DATE",
           labelStyle: const TextStyle(
-              fontSize: 15, color: textSecondary, fontFamily: 'DarumadropOne'),
+              fontSize: 15, color: textSecondary),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -383,8 +382,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                   : DateFormat('yyyy-MM-dd').format(_selectedDate!),
               style: const TextStyle(
                   fontSize: 15,
-                  color: textSecondary,
-                  fontFamily: 'DarumadropOne'),
+                  color: textSecondary),
             ),
             const Icon(Icons.calendar_today, color: textSecondary),
           ],
@@ -395,7 +393,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
 
   // CONSTRUCTION DE L'INTERFACE
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -427,7 +425,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                         value: p['pont_id'],
                         child: Text(
                           p['libelle_pont'] ?? '',
-                          style: const TextStyle(fontFamily: 'DarumadropOne'),
+                          style: const TextStyle(),
                         ),
                       );
                     }).toList(),
@@ -442,7 +440,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                     isLoading: _isLoadingPonts,
                     hint: _ponts.isEmpty && !_isLoadingPonts
                         ? const Text("0 PONT",
-                            style: TextStyle(fontFamily: 'DarumadropOne'))
+                            style: TextStyle())
                         : null,
                   ),
                 ),
@@ -464,7 +462,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                 return DropdownMenuItem<int>(
                   value: c['creneau_id'],
                   child: Text(displayLabel,
-                      style: const TextStyle(fontFamily: 'DarumadropOne')),
+                      style: const TextStyle()),
                 );
               }).toList(),
               value: _selectedCreneauId,
@@ -476,7 +474,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
               isLoading: _isLoadingCreneaux,
               hint: _creneaux.isEmpty && !_isLoadingCreneaux
                   ? const Text("SÉLECTIONNEZ UNE DATE",
-                      style: TextStyle(fontFamily: 'DarumadropOne'))
+                      style: TextStyle())
                   : null,
             ),
             const SizedBox(height: 16),
@@ -494,7 +492,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                         value: b['bateau_id'],
                         child: Text(b['nom'] ?? '',
                             style:
-                                const TextStyle(fontFamily: 'DarumadropOne')),
+                                const TextStyle()),
                       );
                     }).toList(),
                     value: _selectedBateauId,
@@ -506,7 +504,7 @@ class _UserAddReservationState extends State<UserAddReservation> {
                     isLoading: _isLoadingBateaux,
                     hint: _bateaux.isEmpty && !_isLoadingBateaux
                         ? const Text("0 BATEAU",
-                            style: TextStyle(fontFamily: 'DarumadropOne'))
+                            style: TextStyle())
                         : null,
                   ),
                 ),
@@ -527,7 +525,6 @@ class _UserAddReservationState extends State<UserAddReservation> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'DarumadropOne',
                           color: backgroundLight,
                         ),
                       ),
@@ -536,6 +533,28 @@ class _UserAddReservationState extends State<UserAddReservation> {
                 ),
               ],
             ),
+            const SizedBox(height: 16),
+
+            // BOUTON AJOUTER UN BATEAU
+            if (_bateaux.isEmpty)
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    await Navigator.pushNamed(context, '/add_boat');
+                    _fetchBateaux();
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text("AJOUTER UN BATEAU"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

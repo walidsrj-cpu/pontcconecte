@@ -80,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     return Scaffold(
       // CORPS DE LA PAGE
       body: Container(
@@ -129,12 +129,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         labelText: 'Nom complet',
                         labelStyle: TextStyle(
                           fontSize: 16,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: primaryColor,
-                          fontFamily: 'DarumadropOne',
+                          color: primaryColor
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -170,12 +168,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         labelText: 'Email',
                         labelStyle: TextStyle(
                           fontSize: 16,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: primaryColor,
-                          fontFamily: 'DarumadropOne',
+                          color: primaryColor
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -217,12 +213,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         labelText: 'Mot de passe',
                         labelStyle: TextStyle(
                           fontSize: 16,
-                          color: textPrimary,
-                          fontFamily: 'DarumadropOne',
+                          color: textPrimary
                         ),
                         floatingLabelStyle: TextStyle(
-                          color: primaryColor,
-                          fontFamily: 'DarumadropOne',
+                          color: primaryColor
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),

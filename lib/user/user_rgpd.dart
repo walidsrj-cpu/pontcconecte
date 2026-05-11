@@ -77,7 +77,7 @@ class HelpPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext _context) {
     return Scaffold(
       backgroundColor: backgroundLight,
 

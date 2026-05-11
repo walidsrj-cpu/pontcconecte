@@ -39,9 +39,3 @@ flutter:
   # IMAGES
   assets:
     - assets/images/
-  # FONTS
-  fonts:
-    #- family: SmoochSans
-    - family: DarumadropOne
-      fonts:
-        - asset: assets/fonts/DarumadropOne-Regular.ttf

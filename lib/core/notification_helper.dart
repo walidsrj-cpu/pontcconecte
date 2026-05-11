@@ -200,7 +200,6 @@ class _AnimatedNotificationState extends State<_AnimatedNotification>
                         widget.message,
                         style: const TextStyle(
                           color: backgroundLight,
-                          fontFamily: 'DarumadropOne',
                           fontSize: 16,
                         ),
                       ),

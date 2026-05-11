@@ -50,7 +50,6 @@ class _AdminPageState extends State<AdminPage> {
             ),
             dialogBackgroundColor: backgroundLight,
             textTheme: ThemeData.light().textTheme.apply(
-                  fontFamily: 'DarumadropOne',
                 ),
           ),
           child: AlertDialog(

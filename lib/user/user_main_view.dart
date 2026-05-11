@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pontconnect/auth/user_session_storage.dart';
 import 'package:pontconnect/user/user_add_new_reservation.dart';
 import 'package:pontconnect/user/user_view_my_reservations.dart';
-import 'package:pontconnect/user/get_all_availabilities.dart';
 import 'package:pontconnect/user/user_view_my_boats.dart';
+import 'package:pontconnect/user/get_all_availabilities.dart';
 import 'package:pontconnect/user/user_rgpd.dart';
 import 'package:pontconnect/user/get_sensors_values.dart';
 import 'package:pontconnect/core/constants.dart';
@@ -52,7 +52,6 @@ class _UserPageState extends State<UserPage> {
             ),
             dialogBackgroundColor: backgroundLight,
             textTheme: ThemeData.light().textTheme.apply(
-                  fontFamily: 'DarumadropOne',
                 ),
           ),
 
@@ -143,18 +142,7 @@ class _UserPageState extends State<UserPage> {
     }
 
     // DEUXIEME ONGLET
-    else if (_currentIndex == 1) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          color: backgroundLight,
-          child: ViewUserBateaux(),
-        ),
-      );
-    }
-
-    // TROISIEME ONGLET
-      else if (_currentIndex == 2) {
+      else if (_currentIndex == 1) {
       return Column(
         children: [
           // SECTION HAUTE
@@ -182,7 +170,18 @@ class _UserPageState extends State<UserPage> {
       );
     }
 
-    // QUATIEME ONGLET
+    // TROISIEME ONGLET
+    else if (_currentIndex == 2) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          color: backgroundLight,
+          child: ViewUserBateaux(),
+        ),
+      );
+    }
+
+    // QUATRIEME ONGLET
     else if (_currentIndex == 3) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -238,12 +237,12 @@ class _UserPageState extends State<UserPage> {
           label: 'Accueil',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.directions_boat),
-          label: 'Bat',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today),
           label: 'Réservation',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.directions_boat),
+          label: 'Bateaux',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.help_outline_sharp),

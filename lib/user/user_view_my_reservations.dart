@@ -224,7 +224,6 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'DarumadropOne',
                           color: textPrimary,
                         ),
                       ),
@@ -233,7 +232,6 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                         "BATEAU : $bateauName",
                         style: const TextStyle(
                           fontSize: 16,
-                          fontFamily: 'DarumadropOne',
                           color: textSecondary,
                         ),
                       ),
@@ -252,7 +250,6 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                         child: Text(
                           realStatus,
                           style: TextStyle(
-                            fontFamily: 'DarumadropOne',
                             color: _getStatusColor(realStatus),
                             fontSize: 14,
                           ),
@@ -269,14 +266,12 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                           hint: Text(
                             realStatus,
                             style: TextStyle(
-                              fontFamily: 'DarumadropOne',
                               color: _getStatusColor(realStatus),
                               fontSize: 14,
                             ),
                           ),
                           icon: Icon(Icons.arrow_drop_down, color: _getStatusColor(realStatus)),
                           style: TextStyle(
-                            fontFamily: 'DarumadropOne',
                             color: _getStatusColor(realStatus),
                             fontSize: 14,
                           ),
@@ -288,7 +283,6 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                               child: Text(
                                 statusOption,
                                 style: TextStyle(
-                                  fontFamily: 'DarumadropOne',
                                   color: _getStatusColor(statusOption),
                                   fontSize: 14,
                                 ),
@@ -304,20 +298,20 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                                     backgroundColor: backgroundLight,
                                     title: const Text(
                                       "CONFIRMER",
-                                      style: TextStyle(fontFamily: 'DarumadropOne', color: textPrimary),
+                                      style: TextStyle( color: textPrimary),
                                     ),
                                     content: SizedBox(
                                       width: 450,
                                       child: Text(
                                         "CHANGER LE STATUT EN '$newStatus' ?",
-                                        style: const TextStyle(fontFamily: 'DarumadropOne'),
+                                        style: const TextStyle(),
                                       ),
                                     ),
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(),
                                         child: const Text("ANNULER", 
-                                          style: TextStyle(fontFamily: 'DarumadropOne')),
+                                          style: TextStyle()),
                                       ),
                                       TextButton(
                                         onPressed: () {
@@ -325,7 +319,7 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                                           _updateStatus(reservationId, newStatus, reservation);
                                         },
                                         child: const Text("CONFIRMER", 
-                                          style: TextStyle(fontFamily: 'DarumadropOne')),
+                                          style: TextStyle()),
                                       ),
                                     ],
                                   );
@@ -345,8 +339,7 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
               style: const TextStyle(
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
-                color: textSecondary,
-                fontFamily: 'DarumadropOne',
+                color: textSecondary
               ),
             ),
             const SizedBox(height: 8),
@@ -356,8 +349,7 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
               "DATE : ${DateFormat('yyyy-MM-dd').format(DateTime.tryParse(reservationDateStr) ?? DateTime.now())}",
               style: const TextStyle(
                 fontSize: 14,
-                color: textSecondary,
-                fontFamily: 'DarumadropOne',
+                color: textSecondary
               ),
             ),
           ],
@@ -401,8 +393,7 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
                     "AUCUNE RÉSERVATION",
                     style: TextStyle(
                       fontSize: 16,
-                      fontFamily: 'DarumadropOne',
-                      color: textPrimary
+                      color: textPrimary,
                     ),
                   ),
                 )

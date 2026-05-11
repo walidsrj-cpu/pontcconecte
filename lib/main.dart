@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pontconnect/auth/login.dart';
 import 'package:pontconnect/auth/register.dart';
 import 'package:pontconnect/user/user_main_view.dart';
+import 'package:pontconnect/user/add_boat_page.dart';
 import 'package:pontconnect/core/startup_animation.dart';
 import 'package:pontconnect/auth/user_session_storage.dart'; // Ajout de cette ligne
 
@@ -33,8 +34,6 @@ class MyApp extends StatelessWidget {
 
       // THEME GLOBAL
       theme: ThemeData(
-        fontFamily: 'DarumadropOne',
-
         // STYLE DES TEXTES SELECTIONNES
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: primaryColor,
@@ -51,6 +50,7 @@ class MyApp extends StatelessWidget {
         '/startup_animation': (context) => StartupAnimation(),
         '/user_page': (context) => UserPage(),
         '/admin_page': (context) => AdminPage(),
+        '/add_boat': (context) => AddBoatPage(),
       },
     );
   }
