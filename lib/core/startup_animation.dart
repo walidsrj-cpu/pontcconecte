@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pontconnect/auth/login.dart';
 import 'package:pontconnect/auth/user_session_storage.dart'; // Ajout de cette ligne
 
@@ -129,10 +128,9 @@ class _StartupAnimation extends State<StartupAnimation>
                 position: _slideAnimation,
                 child: AnimatedBuilder(
                   animation: _colorAnimation,
-                  builder: (context, child) => SvgPicture.asset(
-                    'assets/images/logo.svg',
+                  builder: (context, child) => Image.asset(
+                    'assets/images/logo.svg.png',
                     width: 150,
-                    color: _colorAnimation.value,
                   ),
                 ),
               ),

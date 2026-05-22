@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pontconnect/auth/user_session_storage.dart';
 import 'package:pontconnect/user/user_add_new_reservation.dart';
 import 'package:pontconnect/user/user_view_my_reservations.dart';
@@ -91,12 +90,11 @@ class _UserPageState extends State<UserPage> {
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
-            "assets/images/logo.svg",
-            height: 55,
-            color: backgroundLight,
+          Image.asset(
+            "assets/images/logo.svg.png",
+            height: 95,
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           Text(
             ("| $userName").toUpperCase(),
             style: const TextStyle(

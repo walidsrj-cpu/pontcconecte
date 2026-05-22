@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -114,10 +113,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset(
-                      "assets/images/logo.svg",
+                    Image.asset(
+                      "assets/images/logo.svg.png",
                       height: 90,
-                      color: primaryColor,
                     ),
                     const SizedBox(height: 30),
 

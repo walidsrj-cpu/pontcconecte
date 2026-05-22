@@ -1,4 +1,4 @@
-![Logo PontConnect](assets/images/logo.svg)
+![Logo PontConnect](assets/images/logo.svg.png)
 
 ### Description
 

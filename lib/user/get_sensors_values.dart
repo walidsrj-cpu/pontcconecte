@@ -21,7 +21,6 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
   final PageController _pageController = PageController();
   bool _hasShownOutdatedWarning = false;
 
-  // INITIALISATION ET LANCEMENT DU REFRESH AUTO
   @override
   void initState() {
     super.initState();
@@ -31,7 +30,6 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
     });
   }
 
-  // RÉCUPÉRATION DES VALEURS DES CAPTEURS
   Future<void> _fetchPonts({bool silent = false}) async {
     final token = UserSession.userToken;
     if (token == null) {
@@ -40,7 +38,8 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
     }
 
     try {
-      final url = Uri.parse('${ApiConstants.baseUrl}sensor/mesures');
+      // On ajoute un paramètre unique à la fin de l'URL pour forcer Chrome à refaire la requête
+      final url = Uri.parse('${ApiConstants.baseUrl}sensor/mesures?t=${DateTime.now().millisecondsSinceEpoch}');
       final response = await http.get(
         url,
         headers: {
@@ -90,7 +89,6 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
     }
   }
 
-  // NETTOYAGE DES RESSOURCES
   @override
   void dispose() {
     _refreshTimer?.cancel();
@@ -98,62 +96,76 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
     super.dispose();
   }
 
-  // CONSTRUCTION DE LA CARTE CAPTEUR
   Widget _buildCapteurCard(Map<String, dynamic> pont) {
-    final String temperature = (pont['temperature'] ?? "0").toString();
-    final String niveauEau = (pont['niveau_eau'] ?? "0").toString();
-    final String turbinite = (pont['turbinite'] ?? "0").toString();
-    final String humidite = (pont['humidite'] ?? "0").toString();
+    final String temperature = pont['temperature'] != null ? pont['temperature'].toString() : "--";
+    final String niveauEau = pont['niveau_eau'] != null ? pont['niveau_eau'].toString() : "--";
+    final String qualiteEau = pont['qualite_eau'] != null ? pont['qualite_eau'].toString() : "--";
+    final String vibration = pont['vibration'] != null ? pont['vibration'].toString() : "--";
 
-    final String uniteTemperature =
-        (pont['unite_temperature'] ?? "°C").toString();
-    final String uniteNiveau = (pont['unite_niveau'] ?? "cm").toString();
-    final String uniteTurbinite = (pont['unite_turbinite'] ?? "ppm").toString();
-    final String uniteHumidite = (pont['unite_humidite'] ?? "%").toString();
+    final String uniteTemperature = (pont['unite_temperature'] ?? "°C").toString();
+    final String uniteNiveau = (pont['unite_niveau'] ?? "mm").toString();
+    final String uniteQualiteEau = (pont['unite_qualite_eau'] ?? "ppm").toString();
+    final String uniteVibration = (pont['unite_vibration'] ?? "m/s2").toString();
 
     final double niveauEauValue = double.tryParse(niveauEau) ?? 0;
     final double temperatureValue = double.tryParse(temperature) ?? 20;
-    final double turbiniteValue = double.tryParse(turbinite) ?? 0;
-    final double humiditeValue = double.tryParse(humidite) ?? 0;
+    final double qualiteEauValue = double.tryParse(qualiteEau) ?? 0;
+    final double vibrationValue = double.tryParse(vibration) ?? 0;
 
     Color niveauEauColor = primaryColor;
     String niveauEauStatus = "NORMAL";
-    if (niveauEauValue > 7) {
-      niveauEauColor = accentColor;
-      niveauEauStatus = "CRITIQUE";
-    } else if (niveauEauValue > 5) {
-      niveauEauColor = tertiaryColor;
-      niveauEauStatus = "ÉLEVÉ";
+    if (niveauEau != "--") {
+      if (niveauEauValue > 7) {
+        niveauEauColor = accentColor;
+        niveauEauStatus = "CRITIQUE";
+      } else if (niveauEauValue > 5) {
+        niveauEauColor = tertiaryColor;
+        niveauEauStatus = "ÉLEVÉ";
+      }
+    } else {
+      niveauEauStatus = "INCONNU";
     }
 
     Color temperatureColor = primaryColor;
     String temperatureStatus = "NORMAL";
-    if (temperatureValue < 0) {
-      temperatureColor = secondaryColor;
-      temperatureStatus = "GEL";
-    } else if (temperatureValue > 30) {
-      temperatureColor = accentColor;
-      temperatureStatus = "ÉLEVÉE";
+    if (temperature != "--") {
+      if (temperatureValue < 0) {
+        temperatureColor = secondaryColor;
+        temperatureStatus = "GEL";
+      } else if (temperatureValue > 30) {
+        temperatureColor = accentColor;
+        temperatureStatus = "ÉLEVÉE";
+      }
+    } else {
+      temperatureStatus = "INCONNU";
     }
 
-    Color turbiniteColor = Colors.green;
-    String turbiniteStatus = "BONNE";
-    if (turbiniteValue > 800) {
-      turbiniteColor = accentColor;
-      turbiniteStatus = "MAUVAISE";
-    } else if (turbiniteValue > 500) {
-      turbiniteColor = tertiaryColor;
-      turbiniteStatus = "MOYENNE";
+    Color qualiteColor = Colors.green;
+    String qualiteStatus = "BONNE";
+    if (qualiteEau != "--") {
+      if (qualiteEauValue > 800) {
+        qualiteColor = accentColor;
+        qualiteStatus = "MAUVAISE";
+      } else if (qualiteEauValue > 500) {
+        qualiteColor = tertiaryColor;
+        qualiteStatus = "MOYENNE";
+      }
+    } else {
+      qualiteStatus = "INCONNU";
     }
 
-    Color humiditeColor = Colors.blueGrey;
-    String humiditeStatus = "OK";
-    if (humiditeValue > 80) {
-      humiditeColor = accentColor;
-      humiditeStatus = "HUMIDE";
-    } else if (humiditeValue < 30) {
-      humiditeColor = secondaryColor;
-      humiditeStatus = "SEC";
+    Color vibrationColor = Colors.green;
+    String vibrationStatus = "CALME";
+    if (vibration != "--") {
+      if (vibrationValue > 5) {
+        vibrationColor = accentColor;
+        vibrationStatus = "ALERTE";
+      } else if (vibrationValue > 2) {
+        vibrationColor = tertiaryColor;
+        vibrationStatus = "MOYENNE";
+      }
+    } else {
+      vibrationStatus = "INCONNU";
     }
 
     Widget capteurBloc({
@@ -181,46 +193,16 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
                 children: [
                   Icon(icon, size: 18, color: statusColor),
                   const SizedBox(width: 6),
-                  Flexible(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: textSecondary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.20),
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    child: Text(
-                      status,
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: statusColor,
-                      ),
-                    ),
-                  ),
+                  // APPEL DU WIDGET CORRIGÉ (StatusWidget)
+                  StatusWidget(title: title, status: status, statusColor: statusColor),
                 ],
               ),
               const SizedBox(height: 5),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  "$value $unit",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: textPrimary,
-                  ),
+                  value == "--" ? "--" : "$value $unit",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: textPrimary),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -266,19 +248,19 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
               children: [
                 capteurBloc(
                   icon: Icons.opacity,
-                  title: "Turbidité",
-                  value: turbinite,
-                  unit: uniteTurbinite,
-                  status: turbiniteStatus,
-                  statusColor: turbiniteColor,
+                  title: "Qualité Eau",
+                  value: qualiteEau,
+                  unit: uniteQualiteEau,
+                  status: qualiteStatus,
+                  statusColor: qualiteColor,
                 ),
                 capteurBloc(
-                  icon: Icons.water_drop,
-                  title: "Humidité",
-                  value: humidite,
-                  unit: uniteHumidite,
-                  status: humiditeStatus,
-                  statusColor: humiditeColor,
+                  icon: Icons.vibration,
+                  title: "Vibrations",
+                  value: vibration,
+                  unit: uniteVibration,
+                  status: vibrationStatus,
+                  statusColor: vibrationColor,
                 ),
               ],
             ),
@@ -290,12 +272,10 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
                   children: [
                     Icon(Icons.update, size: 11, color: textSecondary),
                     const SizedBox(width: 2),
+                    // FORMATAGE CORRIGÉ (Renvoie une String dans un Text)
                     Text(
                       _formatDate(pont['date_mesure']),
-                      style: TextStyle(
-                        fontSize: 9,
-                        color: textSecondary,
-                      ),
+                      style: TextStyle(fontSize: 9, color: textSecondary),
                     ),
                   ],
                 ),
@@ -306,7 +286,7 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
     );
   }
 
-  // FORMATAGE DE LA DATE
+  // FONCTION CORRIGÉE (Renvoie bien une String)
   String _formatDate(String dateStr) {
     try {
       final DateTime date = DateTime.parse(dateStr);
@@ -316,7 +296,6 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
     }
   }
 
-  // INDICATEUR DE PAGE
   Widget _buildPageIndicator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -328,22 +307,17 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
           margin: const EdgeInsets.symmetric(horizontal: 3),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _currentPage == index
-                ? primaryColor
-                : Colors.grey.withOpacity(0.3),
+            color: _currentPage == index ? primaryColor : Colors.grey.withOpacity(0.3),
           ),
         ),
       ),
     );
   }
 
-  // CONSTRUCTION DE L'INTERFACE
   @override
   Widget build(BuildContext context) {
     String currentPontName = _ponts.isNotEmpty && _currentPage < _ponts.length
-        ? (_ponts[_currentPage]['libelle_pont'] ?? "INCONNU")
-            .toString()
-            .toUpperCase()
+        ? (_ponts[_currentPage]['libelle_pont'] ?? "INCONNU").toString().toUpperCase()
         : "CAPTEURS ACTIFS";
 
     return Scaffold(
@@ -352,11 +326,7 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
         backgroundColor: primaryColor,
         title: Text(
           currentPontName,
-          style: const TextStyle(
-            fontWeight: FontWeight.w800,
-            fontSize: 20,
-            color: backgroundLight,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 20, color: backgroundLight),
         ),
         actions: [
           IconButton(
@@ -376,10 +346,7 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
                   const SizedBox(height: 16),
                   Text(
                     "CHARGEMENT DES DONNÉES...",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: textSecondary,
-                    ),
+                    style: TextStyle(fontSize: 16, color: textSecondary),
                   ),
                 ],
               ),
@@ -411,11 +378,7 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
                       const SizedBox(width: 4),
                       Text(
                         "${_currentPage + 1}/${_ponts.length}",
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                          color: textSecondary,
-                        ),
+                        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textSecondary),
                       ),
                       const SizedBox(width: 8),
                       _buildPageIndicator(),
@@ -424,6 +387,50 @@ class _GetSensorsValuesPageState extends State<GetSensorsValues> {
                 ),
               ],
             ),
+    );
+  }
+}
+
+// LE WIDGET UTILITAIRE (Corrigé, sans caractères spéciaux)
+class StatusWidget extends StatelessWidget {
+  const StatusWidget({
+    Key? key,
+    required this.title,
+    required this.status,
+    required this.statusColor,
+  }) : super(key: key);
+
+  final String title;
+  final String status;
+  final Color statusColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: textSecondary),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            decoration: BoxDecoration(
+              color: statusColor.withOpacity(0.20),
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: Text(
+              status,
+              style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: statusColor),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
