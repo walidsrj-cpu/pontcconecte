@@ -191,7 +191,9 @@ class _ViewMyReservationsState extends State<ViewMyReservations> {
     // DONNÉES DE LA RÉSERVATION
     final String reservationId = reservation['reservation_id'] ?? "";
     final String pontName = reservation['pont_name'] ?? "PONT INCONNU";
-    final String creneau = reservation['creneau'] ?? "";
+    String creneau = reservation['creneau'] ?? "";
+    creneau = creneau.replaceAll(RegExp(r'entrante', caseSensitive: false), 'Entrant');
+    creneau = creneau.replaceAll(RegExp(r'sortante', caseSensitive: false), 'Sortant');
     final String reservationDateStr = reservation['reservation_date'] ?? "";
     final String realStatus = (reservation['statut'] ?? "EN ATTENTE").toUpperCase();
     final String bateauName = reservation['bateau_name'] ?? "BATEAU INCONNU";

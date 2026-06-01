@@ -457,8 +457,14 @@ class _UserAddReservationState extends State<UserAddReservation> {
             _buildDropdownField<int>(
               label: "CRÉNEAU",
               items: _creneaux.map((c) {
+                String direction = c['direction']?.toString() ?? '';
+                if (direction.toLowerCase() == 'entrante') {
+                  direction = 'Entrant';
+                } else if (direction.toLowerCase() == 'sortante') {
+                  direction = 'Sortant';
+                }
                 String displayLabel =
-                    "${c['periode']} - ${c['direction']} : ${c['heure_debut']} - ${c['heure_fin']}";
+                    "${c['periode']} - $direction : ${c['heure_debut']} - ${c['heure_fin']}";
                 return DropdownMenuItem<int>(
                   value: c['creneau_id'],
                   child: Text(displayLabel,

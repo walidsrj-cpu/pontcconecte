@@ -38,14 +38,34 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
         },
       );
       final data = json.decode(response.body);
-      if (data['success'] == true && data['ponts'] != null) {
+      List<dynamic> loadedPonts = [];
+      if (data is Map) {
+        if (data['ponts'] is List) {
+          loadedPonts = data['ponts'];
+        } else if (data['data'] is Map && data['data']['ponts'] is List) {
+          loadedPonts = data['data']['ponts'];
+        } else {
+          final firstList = data.values.firstWhere(
+            (value) => value is List,
+            orElse: () => null,
+          );
+          if (firstList is List) {
+            loadedPonts = firstList;
+          }
+        }
+      } else if (data is List) {
+        loadedPonts = data;
+      }
+      if (loadedPonts.isNotEmpty) {
         setState(() {
-          _ponts = data['ponts'];
+          _ponts = loadedPonts;
           _selectedPont = _ponts.isNotEmpty ? _ponts[0] : null;
         });
         _fetchDisponibilites();
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('Erreur fetchPonts: $e');
+    }
   }
 
   // RÉCUPÉRATION DES DISPONIBILITÉS
@@ -55,7 +75,12 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
       NotificationHelper.showError(context, 'Token JWT non trouvé');
       return;
     }
-    if (_selectedPont == null || _selectedPont['pont_id'] == null) {
+    final String? pontIdValue = _selectedPont['pont_id']?.toString() ??
+        _selectedPont['id']?.toString() ??
+        _selectedPont['pontId']?.toString() ??
+        _selectedPont['id_pont']?.toString();
+
+    if (_selectedPont == null || pontIdValue == null) {
       NotificationHelper.showError(context, 'Veuillez sélectionner un pont');
       return;
     }
@@ -64,9 +89,8 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
       _creneaux = [];
     });
     String dateStr = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    String pontId = _selectedPont['pont_id'].toString();
     final url = Uri.parse(
-      "${ApiConstants.baseUrl}user/availabilities?date=$dateStr&pont_id=$pontId",
+      "${ApiConstants.baseUrl}user/creneaux?date=$dateStr&pont_id=$pontIdValue",
     );
 
     try {
@@ -78,17 +102,40 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
         },
       );
       final data = json.decode(response.body);
-      if (data["success"] == true) {
+      List<dynamic> loadedCreneaux = [];
+
+      if (data is Map) {
+        if (data['creneaux'] is List) {
+          loadedCreneaux = data['creneaux'];
+        } else if (data['data'] is Map && data['data']['creneaux'] is List) {
+          loadedCreneaux = data['data']['creneaux'];
+        } else if (data['data'] is List) {
+          loadedCreneaux = data['data'];
+        } else {
+          final firstList = data.values.firstWhere(
+            (value) => value is List,
+            orElse: () => null,
+          );
+          if (firstList is List) {
+            loadedCreneaux = firstList;
+          }
+        }
+      } else if (data is List) {
+        loadedCreneaux = data;
+      }
+
+      if (loadedCreneaux.isNotEmpty) {
         setState(() {
-          _creneaux = data["creneaux"];
+          _creneaux = loadedCreneaux;
         });
       } else if (response.statusCode == 403) {
         NotificationHelper.showWarning(
             context, 'Session expirée. Veuillez vous reconnecter.');
         Navigator.pushReplacementNamed(context, '/login_screen');
       } else {
-        NotificationHelper.showError(
-            context, data["message"].toString().toUpperCase());
+        final message = data is Map ? data['message'] : null;
+        NotificationHelper.showError(context,
+            (message ?? 'Aucune disponibilité').toString().toUpperCase());
       }
     } catch (e) {
       NotificationHelper.showError(context, "ERREUR: ${e.toString()}");
@@ -113,8 +160,7 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
               onSurface: textPrimary,
             ),
             dialogBackgroundColor: backgroundLight,
-            textTheme:
-                ThemeData.light().textTheme.apply(),
+            textTheme: ThemeData.light().textTheme.apply(),
           ),
           child: child!,
         );
@@ -130,16 +176,21 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
 
   // CONSTRUCTION DE LA CARTE D'UN CRÉNEAU
   Widget _buildCreneauCard(dynamic creneau) {
-    final String direction = creneau['direction'] ?? "";
-    final String periode = creneau['periode'] ?? "";
-    final String heureDeb = creneau['heure_debut'] ?? "";
-    final String passage1 = creneau['passage1'] ?? "";
-    final String passage2 = creneau['passage2'] ?? "";
-    final String heureFin = creneau['heure_fin'] ?? "";
+    String direction = creneau['direction']?.toString() ?? "";
+    if (direction.toLowerCase() == 'entrante') {
+      direction = 'Entrant';
+    } else if (direction.toLowerCase() == 'sortante') {
+      direction = 'Sortant';
+    }
+    final String periode = creneau['periode']?.toString() ?? "";
+    final String heureDeb = creneau['heure_debut']?.toString() ?? "";
+    final String passage1 = creneau['passage1']?.toString() ?? "";
+    final String passage2 = creneau['passage2']?.toString() ?? "";
+    final String heureFin = creneau['heure_fin']?.toString() ?? "";
 
-    final int capacite = int.parse('${creneau['capacite_max']}');
-    final int nbConfirm = int.parse('${creneau['reservations_confirmees']}');
-    final double progress = (nbConfirm / capacite).clamp(0.0, 1.0);
+    final int capacite = int.tryParse(creneau['capacite_max']?.toString() ?? "0") ?? 0;
+    final int nbConfirm = int.tryParse(creneau['reservations_confirmees']?.toString() ?? creneau['confirmed_count']?.toString() ?? "0") ?? 0;
+    final double progress = capacite > 0 ? (nbConfirm / capacite).clamp(0.0, 1.0) : 0.0;
 
     // COULEUR INDICATIVE SELON REMPLISSAGE
     final Color statusColor = progress >= 1.0
@@ -298,44 +349,46 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
                     SizedBox(height: 6),
 
                     // PASSAGES INTERMÉDIAIRES
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Row(
-                        children: [
-                          Text(
-                            "PASSAGES:",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: textSecondary,
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            passage1,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          if (passage2.isNotEmpty) ...[
+                    if (passage1.isNotEmpty || passage2.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Row(
+                          children: [
                             Text(
-                              " • ",
+                              "PASSAGES:",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: textSecondary,
                               ),
                             ),
-                            Text(
-                              passage2,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                            SizedBox(width: 4),
+                            if (passage1.isNotEmpty)
+                              Text(
+                                passage1,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
+                            if (passage1.isNotEmpty && passage2.isNotEmpty)
+                              Text(
+                                " • ",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: textSecondary,
+                                ),
+                              ),
+                            if (passage2.isNotEmpty)
+                              Text(
+                                passage2,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                           ],
-                        ],
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -359,17 +412,6 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
   // CONSTRUCTION DE L'INTERFACE
   @override
   Widget build(BuildContext _context) {
-    // SÉPARATION DES CRÉNEAUX PAR DIRECTION
-    final sorties = _creneaux.where((c) {
-      final dir = (c['direction'] ?? "").toString().toLowerCase();
-      return dir.contains("sortie");
-    }).toList();
-
-    final entrees = _creneaux.where((c) {
-      final dir = (c['direction'] ?? "").toString().toLowerCase();
-      return dir.contains("entrée") || dir.contains("entre");
-    }).toList();
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -478,26 +520,9 @@ class _GetAllAvailabilitiesState extends State<GetAllAvailabilities> {
                       : SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // SECTION SORTIE
-                              if (sorties.isNotEmpty) ...[
-                                Column(
-                                  children: sorties
-                                      .map((c) => _buildCreneauCard(c))
-                                      .toList(),
-                                ),
-                                const SizedBox(height: 16),
-                              ],
-
-                              // SECTION ENTRÉE
-                              if (entrees.isNotEmpty) ...[
-                                Column(
-                                  children: entrees
-                                      .map((c) => _buildCreneauCard(c))
-                                      .toList(),
-                                ),
-                              ],
-                            ],
+                            children: _creneaux
+                                .map((c) => _buildCreneauCard(c))
+                                .toList(),
                           ),
                         )),
             ),

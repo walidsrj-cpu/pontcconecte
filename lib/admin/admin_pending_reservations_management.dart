@@ -247,9 +247,14 @@ class _AdminPendingReservationsState extends State<AdminPendingReservations> {
   // CONSTRUCTION DE LA CARTE DE RÉSERVATION
   Widget _buildReservationCard(dynamic reservation) {
     final String reservationId = reservation['reservation_id'];
-    final String direction = reservation['direction'] ??
+    String direction = reservation['direction'] ??
         reservation['pont_name'] ??
         "DIRECTION INCONNUE";
+    if (direction.toLowerCase() == 'entrante') {
+      direction = 'Entrant';
+    } else if (direction.toLowerCase() == 'sortante') {
+      direction = 'Sortant';
+    }
     final String bateauName = reservation['bateau_name'] ?? "BATEAU INCONNU";
     final String bateauImmatriculation =
         reservation['bateau_immatriculation'] ?? "IMMATRICULATION INCONNUE";
