@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use, unused_field
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pontconnect/auth/user_session_storage.dart';
