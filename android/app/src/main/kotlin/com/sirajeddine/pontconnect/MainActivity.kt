@@ -1,4 +1,4 @@
-package wicramachine.com.pontconnect
+package com.sirajeddine.pontconnect
 
 import io.flutter.embedding.android.FlutterActivity
 
